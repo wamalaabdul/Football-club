@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thunderbolts FC | Rising Stars Football Team</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --primary: #1e40af;
+            --secondary: #f59e0b;
+            --dark: #111827;
+            --light: #f3f4f6;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            scroll-behavior: smooth;
+        }
+        
+        .title-font {
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 1px;
+        }
+        
+        .player-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .player-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .player-image {
+            transition: all 0.5s ease;
+        }
+        
+        .player-card:hover .player-image {
+            transform: scale(1.05);
+        }
+        
+        .stats-bar {
+            transition: width 1.5s ease-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        .slide-in {
+            animation: slideIn 1s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1.5s ease-in forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+        }
+        
+        .logo {
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+        
+        .gallery-item {
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+            z-index: 10;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background-color: var(--secondary);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="logo bg-blue-800 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">
+                            TB
+                        </div>
+                        <span class="ml-3 title-font text-2xl text-blue-800">Thunderbolts FC</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-blue-800 hover:text-yellow-500 px-3 py-2 font-medium">Home</a>
+                    <a href="#players" class="text-gray-700 hover:text-yellow-500 px-3 py-2 font-medium">Players</a>
+                    <a href="#gallery" class="text-gray-700 hover:text-yellow-500 px-3 py-2 font-medium">Gallery</a>
+                    <a href="#stats" class="text-gray-700 hover:text-yellow-500 px-3 py-2 font-medium">Stats</a>
+                    <a href="#history" class="text-gray-700 hover:text-yellow-500 px-3 py-2 font-medium">History</a>
+                    <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md font-medium transition duration-300">Contact</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-yellow-500">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 text-blue-800 font-medium">Home</a>
+                <a href="#players" class="block px-3 py-2 text-gray-700 hover:text-yellow-500">Players</a>
+                <a href="#gallery" class="block px-3 py-2 text-gray-700 hover:text-yellow-500">Gallery</a>
+                <a href="#stats" class="block px-3 py-2 text-gray-700 hover:text-yellow-500">Stats</a>
+                <a href="#history" class="block px-3 py-2 text-gray-700 hover:text-yellow-500">History</a>
+                <a href="#contact" class="block px-3 py-2 bg-yellow-500 text-white rounded-md font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 slide-in">
+                    <h1 class="title-font text-5xl md:text-6xl lg:text-7xl mb-6">THUNDERBOLTS FC</h1>
+                    <p class="text-xl mb-8">The future stars of football. Passion, dedication, and teamwork define our young squad.</p>
+                    <div class="flex space-x-4">
+                        <a href="#players" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md font-medium transition duration-300">Meet Our Team</a>
+                        <a href="#contact" class="border-2 border-white hover:bg-white hover:text-blue-800 text-white px-6 py-3 rounded-md font-medium transition duration-300">Join Us</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center fade-in">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                        <div class="absolute inset-0 bg-blue-700 rounded-full opacity-20 animate-ping"></div>
+                        <div class="absolute inset-4 bg-blue-600 rounded-full opacity-20 animate-ping animation-delay-500"></div>
+                        <img src="https://images.unsplash.com/photo-1579952363871-5d706d5a552d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                             alt="Thunderbolts Team" 
+                             class="absolute inset-0 w-full h-full object-cover rounded-full border-4 border-white shadow-xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Team -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl text-blue-800 mb-4">Our Philosophy</h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">We believe in developing not just skilled footballers, but well-rounded individuals. Our focus is on technical excellence, tactical understanding, and personal growth.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <i class="fas fa-futbol text-blue-800 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4">Technical Skills</h3>
+                    <p class="text-gray-600 text-center">Daily drills focusing on ball control, passing accuracy, and shooting technique to build a strong foundation.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <i class="fas fa-brain text-blue-800 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4">Tactical Awareness</h3>
+                    <p class="text-gray-600 text-center">Understanding formations, positioning, and game strategies to develop football intelligence.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <i class="fas fa-heart text-blue-800 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4">Character Building</h3>
+                    <p class="text-gray-600 text-center">Emphasizing teamwork, discipline, respect, and resilience both on and off the pitch.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Players Section -->
+    <section id="players" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl text-blue-800 mb-4">Meet Our Players</h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">Our talented squad of 11 players, each bringing unique skills and personality to the team.</p>
+            </div>
+            
+            <!-- Player Navigation -->
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <button type="button" class="player-filter px-4 py-2 text-sm font-medium rounded-l-lg bg-blue-800 text-white" data-position="all">
+                        All Players
+                    </button>
+                    <button type="button" class="player-filter px-4 py-2 text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300" data-position="goalkeeper">
+                        Goalkeepers
+                    </button>
+                    <button type="button" class="player-filter px-4 py-2 text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300" data-position="defender">
+                        Defenders
+                    </button>
+                    <button type="button" class="player-filter px-4 py-2 text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300" data-position="midfielder">
+                        Midfielders
+                    </button>
+                    <button type="button" class="player-filter px-4 py-2 text-sm font-medium rounded-r-lg bg-gray-200 text-gray-700 hover:bg-gray-300" data-position="forward">
+                        Forwards
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Players Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="players-container">
+                <!-- Player cards will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl text-blue-800 mb-4">Team Gallery</h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">Moments that define our journey, passion, and brotherhood.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Team training" 
+                         class="w-full h-48 object-cover transform transition duration-500 hover:scale-110">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Match action" 
+                         class="w-full h-48 object-cover transform transition duration-500 hover:scale-110">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1579952363871-5d706d5a552d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Team celebration" 
+                         class="w-full h-48 object-cover transform transition duration-500 hover:scale-110">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Tactical discussion" 
+                         class="w-full h-48 object-cover transform transition duration-500 hover:scale-110">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1543351611-58f69d7c1781?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Skills training" 
+                         class="w-full h-48 object-cover transform transition duration-500 hover:scale-110">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Team bonding" 
+                         class="w-full h-48 object-cover transform transition duration-500 hover:scale-110">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Victory moment" 
+                         class="w-full h-48 object-cover transform transition duration-500 hover:scale-110">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Team photo" 
+                         class="w-full h-48 object-cover transform transition duration-500 hover:scale-110">
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 transition duration-300">
+                    View Full Gallery
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl text-blue-800 mb-4">Performance Metrics</h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">Our team's performance data from the current season.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-blue-800">Season Highlights</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Goals Scored</span>
+                                <span class="font-bold">42</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="stats-bar bg-yellow-500 h-2.5 rounded-full" style="width: 84%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Clean Sheets</span>
+                                <span class="font-bold">8</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="stats-bar bg-blue-800 h-2.5 rounded-full" style="width: 53%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Pass Accuracy</span>
+                                <span class="font-bold">78%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="stats-bar bg-green-500 h-2.5 rounded-full" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Tackle Success</span>
+                                <span class="font-bold">82%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="stats-bar bg-red-500 h-2.5 rounded-full" style="width: 82%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-blue-800">Top Performers</h3>
+                    
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <div class="divide-y divide-gray-200">
+                            <div class="p-4 hover:bg-gray-50 transition duration-200">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                        <i class="fas fa-crown text-yellow-500"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="font-bold">Liam Johnson</div>
+                                        <div class="text-sm text-gray-500">Top Scorer - 14 goals</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 hover:bg-gray-50 transition duration-200">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                        <i class="fas fa-star text-blue-800"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="font-bold">Ethan Martinez</div>
+                                        <div class="text-sm text-gray-500">Most Assists - 9 assists</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 hover:bg-gray-50 transition duration-200">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                        <i class="fas fa-shield-alt text-green-500"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="font-bold">Noah Williams</div>
+                                        <div class="text-sm text-gray-500">Defensive Rock - 6 clean sheets</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 hover:bg-gray-50 transition duration-200">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                        <i class="fas fa-bolt text-yellow-500"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="font-bold">Oliver Smith</div>
+                                        <div class="text-sm text-gray-500">Most Improved Player</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold mb-6 text-center text-blue-800">Current Season Fixtures & Results</h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Opponent</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Result</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">15/03/2023</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Eagles FC</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Win</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3-1</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">22/03/2023</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Tigers United</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Win</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2-0</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">05/04/2023</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Lions Academy</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Loss</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1-2</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">12/04/2023</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Panthers SC</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Draw</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2-2</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">19/04/2023</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Wolves Youth</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Win</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">4-0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section id="history" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl text-blue-800 mb-4">Our Journey</h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">From humble beginnings to becoming a competitive youth team.</p>
+            </div>
+            
+            <div class="relative">
+                <!-- Timeline -->
+                <div class="space-y-8 pl-8">
+                    <!-- Timeline item -->
+                    <div class="relative timeline-item pl-8">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-medium">2018</div>
+                                <h3 class="ml-4 text-xl font-bold text-blue-800">Foundation</h3>
+                            </div>
+                            <p class="text-gray-600">Thunderbolts FC was founded by coach Michael Thompson with just 7 local boys passionate about football. Training began at the community park with minimal equipment.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline item -->
+                    <div class="relative timeline-item pl-8">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-medium">2019</div>
+                                <h3 class="ml-4 text-xl font-bold text-blue-800">First Tournament</h3>
+                            </div>
+                            <p class="text-gray-600">Entered our first local youth tournament, finishing 4th out of 8 teams. This experience showed our potential and areas needing improvement.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline item -->
+                    <div class="relative timeline-item pl-8">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-medium">2020</div>
+                                <h3 class="ml-4 text-xl font-bold text-blue-800">Sponsorship & Growth</h3>
+                            </div>
+                            <p class="text-gray-600">Secured our first sponsor, allowing for proper kits and training equipment. Expanded to a full squad of 16 players with structured training sessions.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline item -->
+                    <div class="relative timeline-item pl-8">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-medium">2021</div>
+                                <h3 class="ml-4 text-xl font-bold text-blue-800">League Champions</h3>
+                            </div>
+                            <p class="text-gray-600">Won the U14 Regional Youth League, our first major trophy. Finished the season unbeaten with 12 wins and 2 draws, scoring 38 goals.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline item -->
+                    <div class="relative timeline-item pl-8">
+                        <div class="timeline-dot"></div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-medium">2022-Present</div>
+                                <h3 class="ml-4 text-xl font-bold text-blue-800">State Level Competition</h3>
+                            </div>
+                            <p class="text-gray-600">Competing at state level tournaments, with several players being scouted by academy teams. Continued development of our youth program with a focus on education and football.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsors Section -->
+    <section class="py-12 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h3 class="text-xl font-medium text-gray-500">Proudly Supported By</h3>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="flex justify-center items-center h-20">
+                    <img src="https://via.placeholder.com/150x60?text=SportZone" alt="SportZone" class="h-12 opacity-70 hover:opacity-100 transition duration-300">
+                </div>
+                <div class="flex justify-center items-center h-20">
+                    <img src="https://via.placeholder.com/150x60?text=HealthyLife" alt="HealthyLife" class="h-12 opacity-70 hover:opacity-100 transition duration-300">
+                </div>
+                <div class="flex justify-center items-center h-20">
+                    <img src="https://via.placeholder.com/150x60?text=LocalBank" alt="LocalBank" class="h-12 opacity-70 hover:opacity-100 transition duration-300">
+                </div>
+                <div class="flex justify-center items-center h-20">
+                    <img src="https://via.placeholder.com/150x60?text=GearUp" alt="GearUp" class="h-12 opacity-70 hover:opacity-100 transition duration-300">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-blue-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl mb-4">Get In Touch</h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="max-w-3xl mx-auto text-lg">Interested in joining our team, sponsoring, or arranging a friendly match? Contact us!</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Contact Information</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-700 flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Training Ground</h4>
+                                <p class="mt-1">Greenfield Sports Complex, Field 3<br>123 Sports Avenue, Cityville</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-700 flex items-center justify-center">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Email</h4>
+                                <p class="mt-1">info@thunderboltsfc.com<br>coach@thunderboltsfc.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-700 flex items-center justify-center">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Phone</h4>
+                                <p class="mt-1">+1 (555) 123-4567 (Head Coach)<br>+1 (555) 765-4321 (Team Manager)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="font-bold mb-4">Follow Us</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="h-10 w-10 rounded-full bg-blue-700 hover:bg-blue-600 flex items-center justify-center transition duration-300">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="h-10 w-10 rounded-full bg-blue-700 hover:bg-blue-600 flex items-center justify-center transition duration-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="h-10 w-10 rounded-full bg-blue-700 hover:bg-blue-600 flex items-center justify-center transition duration-300">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="h-10 w-10 rounded-full bg-blue-700 hover:bg-blue-600 flex items-center justify-center transition duration-300">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Send Us a Message</h3>
+                    
+                    <form class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium">Your Name</label>
+                            <input type="text" id="name" class="mt-1 block w-full bg-blue-700 border border-blue-600 rounded-md py-2 px-3 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium">Email Address</label>
+                            <input type="email" id="email" class="mt-1 block w-full bg-blue-700 border border-blue-600 rounded-md py-2 px-3 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                        </div>
+                        
+                        <div>
+                            <label for="subject" class="block text-sm font-medium">Subject</label>
+                            <select id="subject" class="mt-1 block w-full bg-blue-700 border border-blue-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                                <option>General Inquiry</option>
+                                <option>Player Tryouts</option>
+                                <option>Sponsorship</option>
+                                <option>Friendly Match</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium">Message</label>
+                            <textarea id="message" rows="4" class="mt-1 block w-full bg-blue-700 border border-blue-600 rounded-md py-2 px-3 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"></textarea>
+                        </div>
+                        
+                        <div class="pt-2">
+                            <button type="submit" class="w-full flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-800 bg-yellow-500 hover:bg-yellow-600 transition duration-300">
+                                Send Message
+                                <i class="fas fa-paper-plane ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center">
+                        <div class="logo bg-blue-800 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">
+                            TB
+                        </div>
+                        <span class="ml-3 title-font text-2xl">Thunderbolts FC</span>
+                    </div>
+                    <p class="mt-4 text-gray-400">Developing young talent with passion, discipline, and sportsmanship since 2018.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-yellow-500 transition duration-300">Home</a></li>
+                        <li><a href="#players" class="text-gray-400 hover:text-yellow-500 transition duration-300">Players</a></li>
+                        <li><a href="#gallery" class="text-gray-400 hover:text-yellow-500 transition duration-300">Gallery</a></li>
+                        <li><a href="#stats" class="text-gray-400 hover:text-yellow-500 transition duration-300">Stats</a></li>
+                        <li><a href="#history" class="text-gray-400 hover:text-yellow-500 transition duration-300">History</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Training Schedule</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-calendar-day mt-1 mr-2 text-yellow-500"></i>
+                            <span>Mon, Wed, Fri: 4:30pm - 6:30pm</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-calendar-day mt-1 mr-2 text-yellow-500"></i>
+                            <span>Saturday: 9:00am - 11:00am</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2 text-yellow-500"></i>
+                            <span>Greenfield Sports Complex</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Subscribe to get updates on matches, events, and team news.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 w-full rounded-l-md text-gray-800 focus:outline-none">
+                        <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-r-md transition duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400">© 2023 Thunderbolts FC. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    mobileMenu.classList.add('hidden');
+                    
+                    // Calculate position accounting for fixed header
+                    const headerHeight = document.querySelector('nav').offsetHeight;
+                    const targetPosition = targetElement.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Player data
+        const players = [
+            {
+                id: 1,
+                name: "Liam Johnson",
+                position: "forward",
+                role: "Striker",
+                age: 14,
+                school: "City High School",
+                description: "Clinical finisher with excellent movement off the ball. Top scorer for the past two seasons.",
+                image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "liam_johnson",
+                    twitter: "liamj_fc"
+                },
+                stats: {
+                    goals: 14,
+                    assists: 3,
+                    speed: 88,
+                    shooting: 92,
+                    passing: 75,
+                    dribbling: 85
+                }
+            },
+            {
+                id: 2,
+                name: "Noah Williams",
+                position: "defender",
+                role: "Center Back",
+                age: 15,
+                school: "Westside Academy",
+                description: "Strong and commanding defender with excellent leadership qualities. Team captain.",
+                image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "noah_williams",
+                    twitter: "noahw_defense"
+                },
+                stats: {
+                    goals: 2,
+                    assists: 4,
+                    speed: 75,
+                    shooting: 45,
+                    passing: 82,
+                    dribbling: 68
+                }
+            },
+            {
+                id: 3,
+                name: "Oliver Smith",
+                position: "midfielder",
+                role: "Central Midfielder",
+                age: 14,
+                school: "Northside High",
+                description: "Creative playmaker with excellent vision and passing range. Controls the tempo of the game.",
+                image: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "oliver_smith",
+                    twitter: "olivers_playmaker"
+                },
+                stats: {
+                    goals: 5,
+                    assists: 9,
+                    speed: 82,
+                    shooting: 70,
+                    passing: 90,
+                    dribbling: 88
+                }
+            },
+            {
+                id: 4,
+                name: "Ethan Martinez",
+                position: "forward",
+                role: "Winger",
+                age: 14,
+                school: "East High School",
+                description: "Lightning fast winger with excellent dribbling skills. Creates chances and scores important goals.",
+                image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "ethan_martinez",
+                    twitter: "ethanm_winger"
+                },
+                stats: {
+                    goals: 8,
+                    assists: 7,
+                    speed: 95,
+                    shooting: 80,
+                    passing: 78,
+                    dribbling: 93
+                }
+            },
+            {
+                id: 5,
+                name: "Lucas Brown",
+                position: "defender",
+                role: "Right Back",
+                age: 15,
+                school: "Southside High",
+                description: "Energetic full-back who loves to join the attack. Solid defensively with great stamina.",
+                image: "https://images.unsplash.com/photo-1564564244660-5d73c057f2d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "lucas_brown",
+                    twitter: "lucasb_rb"
+                },
+                stats: {
+                    goals: 1,
+                    assists: 6,
+                    speed: 85,
+                    shooting: 50,
+                    passing: 80,
+                    dribbling: 82
+                }
+            },
+            {
+                id: 6,
+                name: "Mason Wilson",
+                position: "midfielder",
+                role: "Defensive Midfielder",
+                age: 15,
+                school: "Central Academy",
+                description: "The team's shield in front of defense. Excellent tackler and positional awareness.",
+                image: "https://images.unsplash.com/photo-1542345812-d98b5cd6cf98?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "mason_wilson",
+                    twitter: "masonw_dm"
+                },
+                stats: {
+                    goals: 3,
+                    assists: 5,
+                    speed: 78,
+                    shooting: 65,
+                    passing: 85,
+                    dribbling: 75
+                }
+            },
+            {
+                id: 7,
+                name: "James Taylor",
+                position: "goalkeeper",
+                role: "Goalkeeper",
+                age: 14,
+                school: "Westside Academy",
+                description: "Reliable shot-stopper with excellent reflexes. Commanding presence in the box.",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "james_taylor",
+                    twitter: "jamest_gk"
+                },
+                stats: {
+                    cleanSheets: 8,
+                    saves: 42,
+                    reflexes: 90,
+                    handling: 85,
+                    distribution: 80,
+                    command: 88
+                }
+            },
+            {
+                id: 8,
+                name: "Benjamin Anderson",
+                position: "defender",
+                role: "Left Back",
+                age: 14,
+                school: "Northside High",
+                description: "Attacking full-back with a great left foot. Delivers dangerous crosses into the box.",
+                image: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e33e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "benjamin_anderson",
+                    twitter: "benjamina_lb"
+                },
+                stats: {
+                    goals: 2,
+                    assists: 5,
+                    speed: 84,
+                    shooting: 60,
+                    passing: 83,
+                    dribbling: 80
+                }
+            },
+            {
+                id: 9,
+                name: "Alexander Thomas",
+                position: "defender",
+                role: "Center Back",
+                age: 15,
+                school: "City High School",
+                description: "Strong in the air and excellent at reading the game. Forms a solid partnership with Noah.",
+                image: "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "alexander_thomas",
+                    twitter: "alexandert_cb"
+                },
+                stats: {
+                    goals: 3,
+                    assists: 2,
+                    speed: 72,
+                    shooting: 50,
+                    passing: 78,
+                    dribbling: 65
+                }
+            },
+            {
+                id: 10,
+                name: "Henry White",
+                position: "midfielder",
+                role: "Attacking Midfielder",
+                age: 14,
+                school: "East High School",
+                description: "Creative and technical player who links midfield and attack. Scores important goals.",
+                image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "henry_white",
+                    twitter: "henryw_am"
+                },
+                stats: {
+                    goals: 7,
+                    assists: 6,
+                    speed: 80,
+                    shooting: 82,
+                    passing: 88,
+                    dribbling: 86
+                }
+            },
+            {
+                id: 11,
+                name: "Daniel Harris",
+                position: "forward",
+                role: "Second Striker",
+                age: 14,
+                school: "Southside High",
+                description: "Versatile attacker who can play across the front line. Combines well with Liam.",
+                image: "https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                social: {
+                    instagram: "daniel_harris",
+                    twitter: "danielh_ss"
+                },
+                stats: {
+                    goals: 9,
+                    assists: 5,
+                    speed: 86,
+                    shooting: 85,
+                    passing: 80,
+                    dribbling: 84
+                }
+            }
+        ];
+
+        // Function to render players
+        function renderPlayers(position = 'all') {
+            const container = document.getElementById('players-container');
+            container.innerHTML = '';
+            
+            const filteredPlayers = position === 'all' 
+                ? players 
+                : players.filter(player => player.position === position);
+            
+            filteredPlayers.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'player-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300';
+                
+                // Determine position color
+                let positionColor = 'bg-gray-200';
+                let positionTextColor = 'text-gray-700';
+                
+                if (player.position === 'goalkeeper') {
+                    positionColor = 'bg-purple-100';
+                    positionTextColor = 'text-purple-800';
+                } else if (player.position === 'defender') {
+                    positionColor = 'bg-blue-100';
+                    positionTextColor = 'text-blue-800';
+                } else if (player.position === 'midfielder') {
+                    positionColor = 'bg-green-100';
+                    positionTextColor = 'text-green-800';
+                } else if (player.position === 'forward') {
+                    positionColor = 'bg-red-100';
+                    positionTextColor = 'text-red-800';
+                }
+                
+                // Stats visualization for outfield players
+                let statsHTML = '';
+                if (player.position !== 'goalkeeper') {
+                    statsHTML = `
+                        <div class="mt-4">
+                            <h4 class="font-medium mb-2">Key Attributes</h4>
+                            <div class="space-y-2">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Speed</span>
+                                        <span>${player.stats.speed}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-blue-600 h-1.5 rounded-full" style="width: ${player.stats.speed}%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Shooting</span>
+                                        <span>${player.stats.shooting}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-red-500 h-1.5 rounded-full" style="width: ${player.stats.shooting}%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Passing</span>
+                                        <span>${player.stats.passing}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-green-500 h-1.5 rounded-full" style="width: ${player.stats.passing}%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Dribbling</span>
+                                        <span>${player.stats.dribbling}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-yellow-500 h-1.5 rounded-full" style="width: ${player.stats.dribbling}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Special stats for goalkeepers
+                    statsHTML = `
+                        <div class="mt-4">
+                            <h4 class="font-medium mb-2">Key Attributes</h4>
+                            <div class="space-y-2">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Reflexes</span>
+                                        <span>${player.stats.reflexes}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-purple-600 h-1.5 rounded-full" style="width: ${player.stats.reflexes}%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Handling</span>
+                                        <span>${player.stats.handling}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-blue-500 h-1.5 rounded-full" style="width: ${player.stats.handling}%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Distribution</span>
+                                        <span>${player.stats.distribution}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-green-500 h-1.5 rounded-full" style="width: ${player.stats.distribution}%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Command</span>
+                                        <span>${player.stats.command}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-yellow-500 h-1.5 rounded-full" style="width: ${player.stats.command}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                playerCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="relative w-20 h-20 rounded-full overflow-hidden mr-4">
+                                <img src="${player.image}" alt="${player.name}" class="player-image w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold">${player.name}</h3>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${positionColor} ${positionTextColor}">
+                                    ${player.role}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm text-gray-600 mb-2">
+                            <div class="flex items-center mb-1">
+                                <i class="fas fa-birthday-cake mr-2 text-blue-800"></i>
+                                <span>Age: ${player.age}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-graduation-cap mr-2 text-blue-800"></i>
+                                <span>School: ${player.school}</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 text-sm mt-2">${player.description}</p>
+                        
+                        ${statsHTML}
+                        
+                        <div class="mt-4 flex space-x-3">
+                            <a href="https://instagram.com/${player.social.instagram}" target="_blank" class="text-gray-500 hover:text-pink-600">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://twitter.com/${player.social.twitter}" target="_blank" class="text-gray-500 hover:text-blue-400">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(playerCard);
+            });
+        }
+
+        // Initial render
+        renderPlayers();
+
+        // Filter players by position
+        document.querySelectorAll('.player-filter').forEach(button => {
+            button.addEventListener('click', function() {
+                const position = this.getAttribute('data-position');
+                
+                // Update active button styling
+                document.querySelectorAll('.player-filter').forEach(btn => {
+                    btn.classList.remove('bg-blue-800', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                });
+                
+                this.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                this.classList.add('bg-blue-800', 'text-white');
+                
+                // Render filtered players
+                renderPlayers(position);
+            });
+        });
+
+        // Animate stats bars when they come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statsBars = entry.target.querySelectorAll('.stats-bar');
+                    statsBars.forEach(bar => {
+                        // Trigger the animation by setting the width again
+                        const width = bar.style.width;
+                        bar.style.width = '0';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const statsSection = document.getElementById('stats');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Add slide-in animation to elements when they come into view
+        const slideInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('slide-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.player-card, .gallery-item, .timeline-item').forEach(element => {
+            slideInObserver.observe(element);
+        });
+    </script>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=wamz001/footballclub" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
+</html>
